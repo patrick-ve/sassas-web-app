@@ -5,8 +5,8 @@ const path = require('path')
 const handlebars = require('handlebars')
 const exphbs = require('express-handlebars')
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
-const { Http2ServerRequest } = require('http2')
-const { response } = require('express')
+const bodyParser = require('body-parser')
+
 const PORT = 1337
 
 // Declare view engine
@@ -18,34 +18,21 @@ server.engine('.hbs', exphbs({
 server.set('views', path.join(__dirname, 'templates'))
 server.set('view engine', '.hbs');
 
-server.get('/', (req, res) => {
-  // Database import
-  const date = new Date
-  const currentDay = date.getDay()
-  console.log(currentDay)
+// Server middleware
+server.use(express.json());
+server.use(express.urlencoded({ extended: false }));
+server.use(bodyParser.urlencoded({
+	extended: false
+}));
+server.use(bodyParser.json());
 
-  if (currentDay === 5){
-    let dayName = 'Vrijdag'
-    res.status(200)
-    res.render('intro', {
-      day: dayName
-    })
-  }
+// Declare all routes
+const indexRouter = require('./routes/indexRouter.js')
+const signUpRouter = require('./routes/signUpRouter.js')
 
-  res.status(200)
-})
-
-
-
-server.post('/', (req, res) => {
-  
-})
-
-
-
-// server.get('/bewoners', (req, res) => {
-//   res.redirect('/404')
-// })
+// Import server routers
+server.use('/', indexRouter)
+server.use('/signup', signUpRouter)
 
 
 server.get('/bewoners/:id', (req, res) => {
