@@ -38,19 +38,6 @@ let db = new sqlite3.Database('./database/database.db', sqlite3.OPEN_READWRITE, 
   console.log('Connected to database.');
 }); 
 
-let sql = `SELECT Name FROM name `; 
-
-db.all(sql, [], (err, rows) => {
-  if (err) {
-    throw err;
-  }
-  rows.forEach((row) => {
-    console.log(row.name);
-  });
-});
-
-
-
 
 // Declare all routes
 const indexRouter = require('./routes/indexRouter.js')

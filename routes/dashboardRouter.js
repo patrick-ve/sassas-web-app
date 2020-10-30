@@ -10,6 +10,9 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   const name = req.body.name
   const password = req.body.password
+
+
+  
 console.log('post request')
   res.status(201)
   res.redirect('/')
