@@ -6,6 +6,7 @@ const handlebars = require('handlebars')
 const exphbs = require('express-handlebars')
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
 const { Http2ServerRequest } = require('http2')
+const { response } = require('express')
 const PORT = 1337
 
 // Declare view engine
@@ -19,11 +20,28 @@ server.set('view engine', '.hbs');
 
 server.get('/', (req, res) => {
   // Database import
-  const currentDay = new Date
+  const date = new Date
+  const currentDay = date.getDay()
   console.log(currentDay)
+
+  if (currentDay === 5){
+    let dayName = 'Vrijdag'
+    res.status(200)
+    res.render('intro', {
+      day: dayName
+    })
+  }
 
   res.status(200)
 })
+
+
+
+server.post('/', (req, res) => {
+  
+})
+
+
 
 // server.get('/bewoners', (req, res) => {
 //   res.redirect('/404')
